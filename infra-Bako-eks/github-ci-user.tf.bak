@@ -1,0 +1,23 @@
+resource "aws_iam_user" "github_actions_ci" {
+  name = "bako-github-actions-ci"
+}
+
+
+
+resource "aws_iam_user_policy_attachment" "github_actions_ecr_push" {
+  user       = aws_iam_user.github_actions_ci.name
+  policy_arn = aws_iam_policy.github_actions_ecr_push.arn
+}
+
+resource "aws_iam_access_key" "github_actions_ci" {
+  user = aws_iam_user.github_actions_ci.name
+}
+
+output "github_actions_ci_access_key_id" {
+  value = aws_iam_access_key.github_actions_ci.id
+}
+
+output "github_actions_ci_secret_access_key" {
+  value     = aws_iam_access_key.github_actions_ci.secret
+  sensitive = true
+}
