@@ -19,7 +19,7 @@ resource "aws_iam_role" "github_actions_ecr" {
         Principal = {
           Federated = aws_iam_openid_connect_provider.github_actions.arn
         }
-        Action = "sts:AssumeRoleWithWebIdentity" ,"sts:TagSession"]
+        Action = ["sts:AssumeRoleWithWebIdentity", "sts:TagSession"]
         Condition = {
           StringEquals = {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
