@@ -19,3 +19,10 @@ build/
 .DS_Store
 Thumbs.db
 .vscode/
+
+#terraform
+infra-Bako-eks/.terraform/
+infra-Bako-eks/terraform.tfstate
+infra-Bako-eks/terraform.tfstate.backup
+infra-Bako-eks/*.tfstate
+infra-Bako-eks/*.tfstate.*
