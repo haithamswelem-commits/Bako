@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bako-frontend
+  namespace: bako
+  labels:
+    app: bako-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bako-frontend
+  template:
+    metadata:
+      labels:
+        app: bako-frontend
+    spec:
+      containers:
+        - name: bako-frontend
+          image: 483272865934.dkr.ecr.eu-north-1.amazonaws.com/bako-frontend:b6a5242f7e3d381a382ccd4d188e3791594d84f9
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bako-frontend-service
+  namespace: bako
+spec:
+  selector:
+    app: bako-frontend
+  ports:
+    - port: 80
+      targetPort: 80
