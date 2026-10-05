@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/haithamswelem-commits/Bako.git
     targetRevision: main
-    path: k8s
+    path: K8s
   destination:
     server: https://kubernetes.default.svc
     namespace: bako
