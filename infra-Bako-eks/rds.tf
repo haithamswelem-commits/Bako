@@ -1,3 +1,24 @@
+resource "random_password" "bako_db" {
+  length  = 32
+  special = false
+}
+
+resource "aws_secretsmanager_secret" "bako_db" {
+  name = "bako/db-credentials"
+
+  tags = {
+    Name = "bako-db"
+  }
+}
+
+resource "aws_secretsmanager_secret_version" "bako_db" {
+  secret_id = aws_secretsmanager_secret.bako_db.id
+  secret_string = jsonencode({
+    username = "bako_admin"
+    password = random_password.bako_db.result
+  })
+}
+
 resource "aws_db_subnet_group" "bako" {
   name       = "bako-db-subnet-group"
   subnet_ids = [aws_subnet.private_a.id, aws_subnet.private_b.id]
@@ -43,7 +64,7 @@ resource "aws_db_instance" "bako" {
 
   db_name                      = "bako"
   username                     = "bako_admin"
-  manage_master_user_password  = true
+  password = random_password.bako_db.result
 
   db_subnet_group_name   = aws_db_subnet_group.bako.name
   vpc_security_group_ids = [aws_security_group.rds.id]
@@ -61,10 +82,10 @@ output "rds_endpoint" {
   value = aws_db_instance.bako.address
 }
 
-output "rds_master_user_secret_arn" {
-  value = aws_db_instance.bako.master_user_secret[0].secret_arn
+output "rds_secret_name" {
+  value = aws_secretsmanager_secret.bako_db.name
 }
 
 output "rds_secret_arn" {
-  value = aws_db_instance.bako.master_user_secret[0].secret_arn
+  value = aws_secretsmanager_secret.bako_db.arn
 }

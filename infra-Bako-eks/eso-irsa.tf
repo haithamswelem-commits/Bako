@@ -34,7 +34,7 @@ resource "aws_iam_policy" "external_secrets_read_rds_secret" {
       {
         Effect   = "Allow"
         Action   = ["secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret"]
-        Resource = aws_db_instance.bako.master_user_secret[0].secret_arn
+        Resource = aws_secretsmanager_secret.bako_db.arn
       }
     ]
   })
