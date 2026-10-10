@@ -5,6 +5,7 @@ resource "random_password" "bako_db" {
 
 resource "aws_secretsmanager_secret" "bako_db" {
   name = "bako/db-credentials"
+  recovery_window_in_days = 0
 
   tags = {
     Name = "bako-db"

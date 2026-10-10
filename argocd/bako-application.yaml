@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/haithamswelem-commits/Bako.git
+    repoURL: https://github.com/haithamswelam/Bako.git
     targetRevision: main
     path: K8s
   destination:
