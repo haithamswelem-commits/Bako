@@ -115,7 +115,7 @@ jobs:
           docker build -f Dockerfile.prod -t $ECR_REGISTRY/bako-frontend:$IMAGE_TAG .
           docker push $ECR_REGISTRY/bako-frontend:$IMAGE_TAG
 
-      - name: Open PR to update image tags in k8s/
+      - name: Open PR to update image tags in K8s/
         env:
           GH_TOKEN: ${{ github.token }}
           IMAGE_TAG: ${{ github.sha }}
@@ -124,8 +124,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH"
-          sed -i "s#\(bako-backend:\).*#\1${IMAGE_TAG}#" k8s/backend-deployment.yaml
-          sed -i "s#\(bako-frontend:\).*#\1${IMAGE_TAG}#" k8s/frontend-deployment.yaml
+          sed -i "s#\(bako-backend:\).*#\1${IMAGE_TAG}#" K8s/backend-deployment.yaml
+          sed -i "s#\(bako-frontend:\).*#\1${IMAGE_TAG}#" K8s/frontend-deployment.yaml
           git add K8s/backend-deployment.yaml K8s/frontend-deployment.yaml
           git commit -m "chore: deploy images ${IMAGE_TAG::7}"
           git push origin "$BRANCH"
